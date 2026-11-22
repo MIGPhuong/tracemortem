@@ -1,0 +1,10 @@
+import {cpSync, mkdirSync, rmSync, writeFileSync} from 'node:fs';
+import {resolve,join} from 'node:path';
+const root=resolve(import.meta.dirname,'..');
+const out=join(root,'dist');
+rmSync(out,{recursive:true,force:true});
+mkdirSync(out,{recursive:true});
+for(const name of ['index.html','manifest.webmanifest'])cpSync(join(root,name),join(out,name));
+for(const dir of ['src','assets'])cpSync(join(root,dir),join(out,dir),{recursive:true});
+writeFileSync(join(out,'.nojekyll'),'');
+console.log('Built static TraceMortem site → dist/');

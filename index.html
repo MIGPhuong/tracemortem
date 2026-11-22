@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#0c1017"/>
+  <meta name="description" content="TraceMortem: evidence-first incident investigation, combining observability with a detective's caseboard."/>
+  <meta property="og:title" content="TraceMortem — Every Failure Leaves a Trace"/>
+  <meta property="og:description" content="A local-first, evidence-driven log investigation workbench. From the first alert to the last clue."/>
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml"/>
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="stylesheet" href="./src/styles.css"/>
+  <title>TraceMortem — Every failure leaves a trace.</title>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <a href="#" class="brand" aria-label="TraceMortem home" id="brand-home">
+        <span class="brand-mark"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 29V11l11 13 12-13v18"/><circle cx="31" cy="9" r="3" fill="#e9977b" stroke="none"/></svg></span>
+        <span class="brand-type">TRACE<span>MORTEM</span><small>INCIDENT FORENSICS LAB</small></span>
+      </a>
+      <div class="workspace-label"><span class="tiny-dot"></span> INVESTIGATION STATION <span class="workspace-idx">/ 01</span></div>
+      <div class="nav-caption">WORKSPACE</div>
+      <nav class="nav" aria-label="Workspace views">
+        <button class="nav-link active" data-nav="overview"><span class="nav-glyph">▦</span> Overview <span class="nav-suffix">01</span></button>
+        <button class="nav-link" data-nav="timeline"><span class="nav-glyph">⌁</span> Timeline <span class="nav-suffix">02</span></button>
+        <button class="nav-link" data-nav="evidence"><span class="nav-glyph">◇</span> Evidence locker <span class="nav-suffix" id="nav-events">28</span></button>
+        <button class="nav-link" data-nav="report"><span class="nav-glyph">▤</span> Case report <span class="nav-suffix">04</span></button>
+      </nav>
+      <div class="sidebar-rule"></div>
+      <div class="nav-caption">CASE LIBRARY <span class="nav-caption-action">03 INCLUDED</span></div>
+      <div id="case-list" class="case-list" aria-label="Sample investigation cases"></div>
+      <button id="import-sidebar" class="import-card" type="button">
+        <span class="import-icon">↥</span><span class="import-copy"><strong>Import your logs</strong><small>.json · .jsonl · .csv · .txt</small></span><span class="chevron">↗</span>
+      </button>
+      <div class="sidebar-bottom">
+        <span class="connect-indicator"><span></span> LOCAL ANALYSIS ENGINE</span>
+        <p>Data stays in this browser.<br/>No backend. No credentials.</p>
+        <div class="sidebar-footer">TRACEMORTEM <span>V0.1.0 / 2026</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="crumb">WORKSPACE <span>/</span> INVESTIGATION LAB <span>/</span> <strong id="crumb-case">INC-042</strong></div>
+        <div class="header-right"><span class="top-pulse"></span><span class="header-status">ANALYSIS READY</span><span class="top-rule"></span><span id="clock" class="header-clock">00:00 UTC</span><span class="avatar">TM</span></div>
+      </header>
+      <div class="main-content">
+        <div class="eyebrow"><span class="eyebrow-bar"></span> THE INCIDENT WORKBENCH <span class="eyebrow-line"></span> <span class="eyebrow-no">NO. 001 / EVIDENCE FIRST</span></div>
+        <div class="hero">
+          <div><h1>Every failure<br/><em>leaves a trace<span>.</span></em></h1><p>Turn noisy logs into a clear investigative trail. Follow the timeline, connect the evidence, and build a report you can defend.</p></div>
+          <div class="hero-stamp" aria-label="Local only"><div class="stamp-ring"><span>NO DATA LEAVES</span><strong>LOCAL</strong><span>YOUR BROWSER</span></div><div class="stamp-decoration">✳</div></div>
+        </div>
+        <div class="case-header"><div class="case-title-block"><div class="section-kicker"><span id="case-number">INC-042</span> <span class="separator-dot">·</span> ACTIVE CASE FILE <span class="demo-tag" id="source-kind">SYNTHETIC DEMO</span></div><h2 id="case-title">The checkout that went silent</h2><p id="case-subtitle">503 errors after a configuration rollout</p></div><div class="case-actions"><button id="load-log" class="btn btn-outline" type="button"><span>↥</span> Import logs</button><button id="export-report" class="btn btn-solid" type="button"><span>↓</span> Export report</button></div></div>
+        <div class="audit-bar"><span><span class="audit-spark">✣</span> EVIDENCE: <strong id="audit-evidence">28 EVENTS</strong></span><span>WINDOW: <strong id="audit-window">09:12 — 09:29 UTC</strong></span><span>METHOD: <strong>DETERMINISTIC</strong></span><span class="audit-note">HEURISTICS ≠ ROOT-CAUSE PROOF</span></div>
+
+        <section data-panel="overview" class="panel-view is-active" aria-label="Overview">
+          <div class="metric-grid">
+            <article class="metric"><div class="metric-label">TOTAL EVIDENCE <span class="metric-symbol">↗</span></div><div class="metric-number" id="metric-total">28</div><div class="metric-foot">Events ingested <span class="foot-dot mint"></span></div></article>
+            <article class="metric"><div class="metric-label">ERROR EVENTS <span class="metric-symbol coral">!</span></div><div class="metric-number" id="metric-error">10</div><div class="metric-foot"><span id="metric-error-rate">36%</span> of this sample <span class="foot-dot coral"></span></div></article>
+            <article class="metric"><div class="metric-label">SERVICES <span class="metric-symbol">⌘</span></div><div class="metric-number" id="metric-services">5</div><div class="metric-foot">Systems in evidence <span class="foot-dot lavender"></span></div></article>
+            <article class="metric"><div class="metric-label">P95 LATENCY <span class="metric-symbol">◷</span></div><div class="metric-number" id="metric-p95">2,950<span class="metric-unit">ms</span></div><div class="metric-foot">Observed log samples <span class="foot-dot amber"></span></div></article>
+          </div>
+          <div class="dashboard-grid">
+            <article class="surface graph-card">
+              <div class="surface-top"><div><div class="section-overline">CORRELATION MAP <span>/ 01</span></div><h3>Follow the connections<span class="h3-punct">.</span></h3></div><span class="small-chip">TRACE-ID LINKS</span></div>
+              <div id="graph" class="graph-container" role="img" aria-label="Service correlation graph"></div>
+              <div class="surface-footer"><span><i class="dot mint"></i> Services</span><span><i class="dot lavender"></i> Shared trace IDs</span><span class="footer-right">CORRELATION, NOT CAUSATION</span></div>
+            </article>
+            <article class="surface leads-card">
+              <div class="surface-top"><div><div class="section-overline">INVESTIGATIVE LEADS <span>/ 02</span></div><h3>What deserves a closer look<span class="h3-punct">?</span></h3></div><span class="small-chip">RULE-BASED</span></div>
+              <div id="lead-list" class="lead-list"></div>
+              <div class="leads-foot">↳ These are ranked evidence signals, not verified causes. Investigate before concluding.</div>
+            </article>
+          </div>
+          <div class="dashboard-grid bottom-dashboard">
+            <article class="surface activity-card"><div class="surface-top"><div><div class="section-overline">INCIDENT TELEMETRY <span>/ 03</span></div><h3>Activity across the window<span class="h3-punct">.</span></h3></div><span class="small-chip">EVENT DISTRIBUTION</span></div><div id="activity-chart" class="activity-chart" aria-label="Time-binned log activity"></div><div class="chart-labels"><span id="chart-start">09:12</span><span>CLICK A BAR TO FILTER</span><span id="chart-end">09:29</span></div><div class="surface-footer"><span><i class="dot coral"></i> Errors</span><span><i class="dot mint"></i> Other activity</span><button id="reset-chart" type="button" class="inline-action" hidden>Clear selected window ↗</button></div></article>
+            <article class="surface first-error-card"><div class="surface-top"><div><div class="section-overline">PRIMARY OBSERVATION <span>/ 04</span></div><h3>Where it first broke<span class="h3-punct">.</span></h3></div><span class="small-chip">FIRST ERROR</span></div><div id="first-error" class="first-error-body"></div><button type="button" id="see-first-error" class="text-action">OPEN IN EVIDENCE LOCKER <span>↗</span></button></article>
+          </div>
+          <article class="surface evidence-preview"><div class="surface-top"><div><div class="section-overline">EVIDENCE LOCKER <span>/ 05</span></div><h3>The paper trail<span class="h3-punct">.</span></h3></div><button class="btn btn-thin" data-go="evidence">View all evidence ↗</button></div><div class="table-scroll"><table class="evidence-table"><thead><tr><th>ID</th><th>UTC TIME</th><th>SERVICE</th><th>SEVERITY</th><th>EVENT EXCERPT</th><th></th></tr></thead><tbody id="evidence-preview-body"></tbody></table></div></article>
+        </section>
+
+        <section data-panel="timeline" class="panel-view" aria-label="Full timeline">
+          <div class="wide-section-head"><div><div class="section-overline">CHRONOLOGY / THE ORDER OF EVENTS</div><h2>Reconstruct the night<span class="h3-punct">.</span></h2><p>Every timestamp is from the supplied dataset. Use these observations to test your hypothesis.</p></div><button class="btn btn-outline" data-go="report">View report ↗</button></div>
+          <article class="surface timeline-chart-card"><div class="section-overline">COMPLETE INCIDENT WINDOW</div><div id="timeline-chart" class="activity-chart full"></div><div class="chart-labels"><span id="timeline-start"></span><span>SELECT A TIME BUCKET TO FILTER EVIDENCE</span><span id="timeline-end"></span></div></article>
+          <div id="timeline-feed" class="timeline-feed"></div>
+        </section>
+
+        <section data-panel="evidence" class="panel-view" aria-label="Evidence locker">
+          <div class="wide-section-head"><div><div class="section-overline">SOURCE-OF-TRUTH / INDIVIDUAL EVENTS</div><h2>Question every clue<span class="h3-punct">.</span></h2><p>Search the raw event text. Inspect event details; no generated facts.</p></div><button class="btn btn-outline" id="evidence-download">↓ Export incident</button></div>
+          <div class="evidence-controls"><label class="search-control"><span>⌕</span><input id="evidence-search" type="search" placeholder="Search logs, trace ID, service or code…" aria-label="Search evidence" /></label><select id="level-filter" aria-label="Filter by severity"><option value="all">All severities</option><option value="error">Errors</option><option value="warn">Warnings</option><option value="info">Information</option></select><select id="service-filter" aria-label="Filter by service"><option value="all">All services</option></select><button class="btn btn-outline btn-small" id="clear-filters">Reset filters</button></div>
+          <div class="filter-info"><span id="filter-result">Showing all events</span><span id="filter-window"></span></div>
+          <article class="surface locker-table"><div class="table-scroll"><table class="evidence-table"><thead><tr><th>ID</th><th>UTC TIME</th><th>SERVICE</th><th>SEVERITY</th><th>EVENT EXCERPT</th><th></th></tr></thead><tbody id="evidence-body"></tbody></table></div><div id="empty-evidence" class="empty-state" hidden>No matching evidence. Try a different filter.</div></article>
+        </section>
+
+        <section data-panel="report" class="panel-view" aria-label="Case report">
+          <div class="wide-section-head"><div><div class="section-overline">EVIDENCE-BACKED / REVIEWABLE SUMMARY</div><h2>Close the case carefully<span class="h3-punct">.</span></h2><p>Export a defensible incident brief with references to the underlying log events.</p></div><button id="report-download" class="btn btn-solid">↓ Download .md</button></div>
+          <article class="report-banner"><span>✶</span><div><strong>Hypotheses are not facts.</strong><p>Every claim must be verified against your system. This report does not certify a root cause.</p></div></article>
+          <article class="surface report-surface"><div class="report-document" id="report-document"></div></article>
+        </section>
+
+        <footer class="footer"><span>TRACEMORTEM / 2026</span><span>FORENSICS FOR HUMANS — NOT BLACK-BOX VERDICTS</span><span>ALL DATA PROCESSED LOCALLY <b>↗</b></span></footer>
+      </div>
+    </main>
+  </div>
+  <input type="file" id="upload-file" accept=".json,.jsonl,.csv,.txt,.log,application/json,text/plain,text/csv" hidden aria-label="Upload incident log" />
+  <dialog id="event-dialog" class="event-dialog"><div class="dialog-header"><div><span class="section-overline">EVIDENCE INSPECTOR</span><h3 id="dialog-event-id">E0001</h3></div><button type="button" class="dialog-close" id="close-event" aria-label="Close">×</button></div><div id="dialog-event-body"></div><div class="dialog-footer"><button type="button" id="dialog-copy" class="btn btn-outline">Copy raw event</button><button type="button" id="dialog-close-footer" class="btn btn-solid">Close inspector</button></div></dialog>
+  <div id="toast" role="status" aria-live="polite" class="toast" hidden></div>
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
